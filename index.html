@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laugh Counter</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ffffff 0%, #000000 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      border: 2px solid #131212;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    #laughBtn {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 30px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    #laughBtn:hover:not(:disabled) {
+      transform: scale(1.1);
+      box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+    }
+
+    #laughBtn:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    #laughBtn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #laughBtn img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    p {
+      color: #555;
+      font-size: 18px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+
+    #count {
+      font-weight: bold;
+      color: #667eea;
+      font-size: 16px;
+      display: inline;
+      margin: 0;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      #laughBtn {
+        width: 120px;
+        height: 120px;
+      }
+
+      #laughBtn img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bình Laugh Button 😂</h1>
+    <button id="laughBtn">
+      <img src="beBinh.webp" alt="Laugh Icon">
+    </button>
+    <p>Bình đã cười: <span id="count">Đang tải...</span> lần.</p>
+  </div>
+
+  <script>
+    // URL Web App của bạn (Apps Script)
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyn1E6OurSaqxciZ-D41UoAkrzJSltymDHhm8RwvPfEg-KxI_X3pa8kfiVNGSUohY9H2Q/exec";
+
+    // Tạo đối tượng âm thanh
+    const laughSound = new Audio("https://thptphungoc12a5.github.io/XYZ/binhcuoi.mp3");
+
+    // Lấy phần tử hiển thị số lần
+    const counter = document.getElementById("count");
+    const btn = document.getElementById("laughBtn");
+
+    // Disable nút ban đầu
+    btn.disabled = true;
+
+    // Format số: chèn dấu chấm mỗi 3 chữ số (ví dụ 1.234.567)
+    function formatNumber(value) {
+      var n = Number(value);
+      if (!isFinite(n)) return String(value);
+      return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    // Khi load trang, gọi API GET để lấy số lần hiện tại
+    fetch(SCRIPT_URL)
+      .then(res => res.json())
+      .then(data => {
+        counter.textContent = formatNumber(data.count);
+        // Enable nút sau khi dữ liệu tải xong
+        btn.disabled = false;
+      })
+      .catch(error => {
+        console.error("Lỗi khi tải dữ liệu:", error);
+        counter.textContent = formatNumber(0);
+        btn.disabled = false;
+      });
+
+    // Khi bấm nút
+    btn.addEventListener("click", () => {
+      // Disable nút để tránh spam
+      btn.disabled = true;
+
+      // Phát âm thanh
+      laughSound.play();
+
+      // Gửi request POST để tăng số lần
+      fetch(SCRIPT_URL, { method: "POST" })
+        .then(res => res.json())
+        .then(data => {
+          counter.textContent = formatNumber(data.count);
+        })
+        .catch(err => console.error('POST error:', err));
+    });
+
+    // Khi âm thanh kết thúc → enable lại nút
+    laughSound.addEventListener("ended", () => {
+      btn.disabled = false;
+    });
+  </script>
+</body>
+</html>
