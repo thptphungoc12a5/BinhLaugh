@@ -12,51 +12,115 @@
     }
 
     body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #ffffff 0%, #000000 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1a1a1a;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      color: #fff;
     }
 
     .container {
-      background: white;
-      border-radius: 20px;
-      border: 2px solid #131212;
-      padding: 40px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
       text-align: center;
-      max-width: 400px;
+      max-width: 600px;
       width: 100%;
     }
 
+    .local-stats {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      margin: 0;
+      padding: 0;
+      border: none;
+      text-align: left;
+      z-index: 1000;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 5px;
+    }
+
+    .local-stats p {
+      margin: 0;
+      font-size: 12px;
+      color: #888;
+      font-weight: normal;
+    }
+
+    #localCount {
+      font-size: 12.6px;
+      font-weight: bold;
+      color: #00d4ff;
+      display: inline;
+      margin: 0;
+    }
+
+
+
     h1 {
-      color: #333;
-      margin-bottom: 30px;
-      font-size: 28px;
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #aaa;
+      margin-bottom: 50px;
+      font-style: italic;
+    }
+
+    .counter-label {
+      font-size: 16px;
+      color: #888;
+      margin-bottom: 50px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: none;
+    }
+
+    .big-counter {
+      font-size: 20px;
+      font-weight: bold;
+      color: #00d4ff;
+      margin-bottom: 40px;
+      letter-spacing: 2px;
+      line-height: 1;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .big-counter .before-label,
+    .big-counter .after-label {
+      font-size: 16px;
+      color: #888;
+      text-transform: uppercase;
       letter-spacing: 1px;
     }
 
     #laughBtn {
-      width: 200px;
-      height: 200px;
+      width: 180px;
+      height: 180px;
       border-radius: 50%;
-      border: none;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: 3px solid #00d4ff;
+      background: #222;
       cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto 30px;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+      padding: 0;
+      margin: 0 auto 20px;
+      transition: all 0.2s ease;
+      overflow: hidden;
+      display: block;
     }
 
     #laughBtn:hover:not(:disabled) {
-      transform: scale(1.1);
-      box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+      transform: scale(1.05);
     }
 
     #laughBtn:active:not(:disabled) {
@@ -64,64 +128,141 @@
     }
 
     #laughBtn:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
     #laughBtn img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       border-radius: 50%;
+      display: block;
     }
 
-    p {
-      color: #555;
-      font-size: 18px;
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
-    }
-
-    #count {
-      font-weight: bold;
-      color: #667eea;
+    .laugh-label {
       font-size: 16px;
-      display: inline;
-      margin: 0;
+      color: #00d4ff;
+      font-weight: bold;
+      margin-bottom: 50px;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      25% {
+        transform: translateY(-10px);
+      }
+      50% {
+        transform: translateY(0);
+      }
+      75% {
+        transform: translateY(-5px);
+      }
+    }
+
+    #laughBtn:disabled {
+      opacity: 1;
+      cursor: not-allowed;
+    }
+
+    #laughBtn.bouncing {
+      animation: bounce 0.6s infinite;
     }
 
     @media (max-width: 480px) {
-      .container {
-        padding: 30px 20px;
+      body {
+        padding: 15px;
+      }
+
+      .local-stats {
+        top: 15px;
+        left: 15px;
+        font-size: 11px;
+        position: fixed;
+        margin: 0;
+        justify-content: flex-start;
+        gap: 4px;
+        flex-wrap: wrap;
+        max-width: 120px;
+      }
+
+      .local-stats p {
+        font-size: 11px;
+        margin: 0;
+      }
+
+      #localCount {
+        font-size: 12px;
       }
 
       h1 {
-        font-size: 24px;
+        font-size: 32px;
+        margin-bottom: 15px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+        margin-bottom: 30px;
+      }
+
+      .big-counter {
+        font-size: 14px;
+        margin-bottom: 30px;
+        gap: 5px;
+        justify-content: center;
+      }
+
+      .big-counter .before-label,
+      .big-counter .after-label {
+        font-size: 13px;
+      }
+
+      .big-counter span#count {
+        font-size: 20px;
       }
 
       #laughBtn {
-        width: 120px;
-        height: 120px;
+        width: 140px;
+        height: 140px;
+        margin: 0 auto 15px;
+        border-width: 2px;
       }
 
       #laughBtn img {
         width: 100%;
         height: 100%;
       }
+
+      .laugh-label {
+        font-size: 14px;
+        margin-bottom: 30px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="local-stats">
+    <p>Bạn đã làm Bình cười được</p>
+    <span id="localCount">0</span>
+    <p>lần</p>
+  </div>
+
   <div class="container">
-    <h1>Bình Laugh Button 😂</h1>
+    <h1>Bình Laugh Button</h1>
+    <p class="subtitle">Because why the hell not?</p>
+
+    <div class="big-counter">
+      <span class="before-label">Bình đã cười được</span>
+      <span id="count">Đang tải...</span>
+      <span class="after-label">lần</span>
+    </div>
+
     <button id="laughBtn">
       <img src="beBinh.webp" alt="Laugh Icon">
     </button>
-    <span>Play Laugh</span>
-    <p>Bình đã cười: <span id="count">Đang tải...</span> lần.</p>
+    <div class="laugh-label">Chọc Bình</div>
   </div>
 
   <script>
@@ -134,6 +275,25 @@
     // Lấy phần tử hiển thị số lần
     const counter = document.getElementById("count");
     const btn = document.getElementById("laughBtn");
+    const localCountEl = document.getElementById("localCount");
+
+    // Local storage key
+    const LOCAL_KEY = "binhLaugh_localCount";
+
+    // Load local count từ localStorage
+    function loadLocalCount() {
+      const saved = localStorage.getItem(LOCAL_KEY);
+      return saved ? parseInt(saved, 10) : 0;
+    }
+
+    // Lưu local count vào localStorage
+    function saveLocalCount(val) {
+      localStorage.setItem(LOCAL_KEY, val.toString());
+    }
+
+    // Cập nhật hiển thị local count
+    let localCount = loadLocalCount();
+    localCountEl.textContent = formatNumber(localCount);
 
     // Disable nút ban đầu
     btn.disabled = true;
@@ -163,6 +323,12 @@
     btn.addEventListener("click", () => {
       // Disable nút để tránh spam
       btn.disabled = true;
+      btn.classList.add("bouncing");
+
+      // Tăng local count
+      localCount++;
+      saveLocalCount(localCount);
+      localCountEl.textContent = formatNumber(localCount);
 
       // Phát âm thanh
       laughSound.play();
@@ -176,11 +342,11 @@
         .catch(err => console.error('POST error:', err));
     });
 
-    // Khi âm thanh kết thúc → enable lại nút
+    // Khi âm thanh kết thúc → enable lại nút và bỏ animation
     laughSound.addEventListener("ended", () => {
       btn.disabled = false;
+      btn.classList.remove("bouncing");
     });
   </script>
 </body>
 </html>
-
